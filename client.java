@@ -114,6 +114,7 @@ public class client {
   public static int pageNumberSecondChance[];
   public static int pointerSecondChance = 0;
   public static Queue<Integer> lruQueue = new LinkedList<>();
+  public static int lru[];
 
   public static void fifo(int input) {
     boolean check = false;
@@ -131,6 +132,15 @@ public class client {
     }
   }
 
+  public static void lruArray(int input) {
+    for (int i = 0; i < lru.length; i++) {
+      if (!lruQueue.contains(lru[i])) {
+        lru[i] = input;
+        return;
+      }
+    }
+  }
+
   public static void LRU(int input) {
     if (lruQueue.isEmpty() || !lruQueue.contains(input)) {
       if (lruQueue.size() == framesCount)
@@ -141,7 +151,7 @@ public class client {
       lruQueue.remove(input);
       lruQueue.add(input);
     }
-
+    lruArray(input);
   }
 
   // If page found, updates the second chance bit to true
@@ -186,13 +196,14 @@ public class client {
       e.printStackTrace();
     }
     int input = socketIn.readInt();
+    framesCount = input;
     second_chance = new boolean[input];
     pageNumberSecondChance = new int[input];
-    Arrays.fill(pageNumberSecondChance, -1);
     fifo = new int[input];
-    framesCount = input;
-    for (int i = 0; i < framesCount; i++)
-      fifo[i] = -1;
+    lru = new int[input];
+    Arrays.fill(fifo, -1);
+    Arrays.fill(lru, -1);
+    Arrays.fill(pageNumberSecondChance, -1);
     input = socketIn.readInt();
     int x = 2;
     while (x != 24) {
@@ -204,15 +215,14 @@ public class client {
       // for (int i = 0; i < framesCount; i++)
       // System.out.println(fifo[i] + ",");
       // System.out.println("]");
-      // System.out.println("LRU:[");
-      // for (Object o : lruQueue) {
-      // System.out.println(o);
-      // }
-      // System.out.println("]");
-      System.out.println("second chance:[");
-      for (int i = 0; i < framesCount; i++)
-        System.out.println(pageNumberSecondChance[i] + ",");
+      System.out.println("LRU:[");
+      for (int i = 0; i < lru.length; i++)
+        System.out.println(lru[i] + ",");
       System.out.println("]");
+      // System.out.println("second chance:[");
+      // for (int i = 0; i < framesCount; i++)
+      // System.out.println(pageNumberSecondChance[i] + ",");
+      // System.out.println("]");
       input = socketIn.readInt();
       x++;
     }
