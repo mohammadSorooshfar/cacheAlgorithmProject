@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Server {
     static final int PORT = 8080;
+    static int number[] = { 7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1 };
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
@@ -20,14 +21,14 @@ public class Server {
         System.out.println("Client connected");
 
         try {
-            int memorySize = ThreadLocalRandom.current().nextInt(1, 10 + 1);
+            int memorySize = 3;
             socketOut.writeInt(memorySize);
 
-            int memoryAccessCount = ThreadLocalRandom.current().nextInt(5, 100 + 1);
+            int memoryAccessCount = 22;
             for (int i = 0; i < memoryAccessCount; i++) {
-                int memoryAddress = ThreadLocalRandom.current().nextInt(5, 100 + 1);
-                socketOut.writeInt(memoryAddress);
+                int memoryAddress = number[i];
                 System.out.println(memoryAddress);
+                socketOut.writeInt(memoryAddress);
 
                 int delay = ThreadLocalRandom.current().nextInt(1, 2000 + 1);
                 Thread.sleep(delay);
