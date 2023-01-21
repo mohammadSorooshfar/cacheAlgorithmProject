@@ -200,14 +200,18 @@ public class client {
       fifo(input);
       LRU(input);
       secondChance(input);
-      System.out.println("fifo:[");
+      // System.out.println("fifo:[");
+      // for (int i = 0; i < framesCount; i++)
+      // System.out.println(fifo[i] + ",");
+      // System.out.println("]");
+      // System.out.println("LRU:[");
+      // for (Object o : lruQueue) {
+      // System.out.println(o);
+      // }
+      // System.out.println("]");
+      System.out.println("second chance:[");
       for (int i = 0; i < framesCount; i++)
-        System.out.println(fifo[i] + ",");
-      System.out.println("]");
-      System.out.println("LRU:[");
-      for (Object o : lruQueue) {
-        System.out.println(o);
-      }
+        System.out.println(pageNumberSecondChance[i] + ",");
       System.out.println("]");
       input = socketIn.readInt();
       x++;
